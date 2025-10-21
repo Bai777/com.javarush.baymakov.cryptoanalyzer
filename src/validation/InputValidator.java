@@ -1,4 +1,6 @@
-public class Validator {
+package validation;
+
+public class InputValidator {
     public boolean isValidKey(int key, char[] alphabet) {
         // Проверка ключа
         //TODO

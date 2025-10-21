@@ -1,3 +1,5 @@
+package io;
+
 public class FileManager {
     public String readFile(String filePath) {
         // Логика чтения файла

@@ -26,8 +26,8 @@ public class Alphabet {
         return size;
     }
 
-    public boolean contains(char c) {
-        return indexOf(c) != -1;
+    public boolean contains(char character) {
+        return indexOf(character) != -1;
     }
 
     public static Alphabet russianAlphabet() {

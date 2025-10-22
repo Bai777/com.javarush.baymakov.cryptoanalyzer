@@ -10,7 +10,11 @@ public class BruteForceAnalyzer {
 
     public BruteForceAnalyzer(CaesarCipher cipher, Set<String> commonWords) {
         this.cipher = cipher;
-        this.commonWords = initializeCommonWords();
+        this.commonWords = commonWords;
+    }
+
+    public BruteForceAnalyzer(CaesarCipher cipher) {
+        this(cipher, initializeCommonWords());
     }
 
     public BruteForceResult decrypt(String encryptedText) {
@@ -63,12 +67,12 @@ public class BruteForceAnalyzer {
         return count;
     }
 
-    private Set<String> initializeCommonWords() {
+    public static Set<String> initializeCommonWords() {
         return Set.of(
                 "и", "в", "не", "на", "я", "быть", "он", "с", "что", "а",
-                "по", "это", "она", "этот", "как", "но", "они", "мы", "то", "из",
+                "по", "это", "она", "этот", "но", "они", "мы", "то", "из",
                 "вы", "как", "все", "так", "его", "за", "от", "к", "же", "ты",
-                "о", "из", "у", "для", "о", "же", "да", "бы", "вот", "сказать"
+                "у", "для", "о", "да", "бы", "вот", "сказать"
         );
     }
 

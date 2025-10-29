@@ -1,6 +1,5 @@
 package validation;
 
-import cipher.Alphabet;
 import io.ValidationException;
 
 import java.nio.file.Files;
@@ -27,7 +26,7 @@ public class InputValidator {
         }
     }
 
-    public void validateKey(int key, Alphabet alphabet) {
+    public void validateKey(int key) {
         if (key < 0){
             throw new ValidationException("Ключ не может быть отрицательным значением!");
         }

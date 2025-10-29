@@ -4,8 +4,10 @@ import cipher.Alphabet;
 import cipher.CaesarCipher;
 import io.FileManager;
 import validation.InputValidator;
+import static constants.Constants.*;
 
 import java.util.Scanner;
+
 
 public class Main {
     private final CaesarCipher cipher;
@@ -29,7 +31,7 @@ public class Main {
     public void run() {
         while (true) {
             printMenu();
-            int choice = readIntInput("Выберите действие: ");
+            int choice = readIntInput(ACTION);
 
             try {
                 switch (choice) {
@@ -38,61 +40,61 @@ public class Main {
                     case 3 -> bruteForce();
                     case 4 -> statisticalAnalysis();
                     case 0 -> {
-                        System.out.println("Выход из программы.");
+                        System.out.println(QUIT);
                         return;
                     }
-                    default -> System.out.println("Неверный выбор.");
+                    default -> System.out.println(WRONG_CHOICE);
                 }
             } catch (Exception e) {
-                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println(ERROR + e.getMessage());
             }
         }
     }
 
     private void printMenu() {
-        System.out.println("\n=== Шифр Цезаря ===");
-        System.out.println("1. Зашифровать текст");
-        System.out.println("2. Расшифровать текст с ключом");
-        System.out.println("3. Взлом brute force");
-        System.out.println("4. Статистический анализ");
-        System.out.println("0. Выход");
+        System.out.println(TITLE);
+        System.out.println(ONE_POSITION_MENU);
+        System.out.println(TWO_POSITION_MENU);
+        System.out.println(THREE_POSITION_MENU);
+        System.out.println(FOUR_POSITION_MENU);
+        System.out.println(ZERO_POSITION_MENU);
     }
 
     private void encrypt() throws Exception {
-        String inputFile = readStringInput("Введите путь к исходному файлу: ");
-        String outputFile = readStringInput("Введите путь для зашифрованного файла: ");
-        int key = readIntInput("Введите ключ шифрования: ");
+        String inputFile = readStringInput(INPUT_FILE_PATH);
+        String outputFile = readStringInput(OUTPUT_FILE_PATH);
+        int key = readIntInput(INPUT_KEY);
 
         validator.validateFileExists(inputFile);
         validator.validateOutputPath(outputFile);
-        validator.validateKey(key, cipher.getAlphabet());
+        validator.validateKey(key);
 
         String text = fileManager.readFile(inputFile);
         String encrypted = cipher.encrypt(text, key);
         fileManager.writeFile(encrypted, outputFile);
 
-        System.out.println("Файл успешно зашифрован.");
+        System.out.println(INFO_FROM_STATUS_ENCRYPT_FILE);
     }
 
     private void decryptWithKey() throws Exception {
-        String inputFile = readStringInput("Введите путь к зашифрованному файлу: ");
-        String outputFile = readStringInput("Введите путь для расшифрованного файла: ");
-        int key = readIntInput("Введите ключ дешифровки: ");
+        String inputFile = readStringInput(PATH_FROM_ENCRYPT_FILE);
+        String outputFile = readStringInput(PATH_FROM_DECRYPT_FILE);
+        int key = readIntInput(KEY_DECRYPT);
 
         validator.validateFileExists(inputFile);
         validator.validateOutputPath(outputFile);
-        validator.validateKey(key, cipher.getAlphabet());
+        validator.validateKey(key);
 
         String text = fileManager.readFile(inputFile);
         String decrypted = cipher.decrypt(text, key);
         fileManager.writeFile(decrypted, outputFile);
 
-        System.out.println("Файл успешно расшифрован.");
+        System.out.println(INFO_FROM_STATUS_DECRYPT_FILE);
     }
 
     private void bruteForce() throws Exception {
-        String inputFile = readStringInput("Введите путь к зашифрованному файлу: ");
-        String outputFile = readStringInput("Введите путь для расшифрованного файла: ");
+        String inputFile = readStringInput(BRUT_FORCE_INPUT_FILE_PATH);
+        String outputFile = readStringInput(BRUT_FORCE_OUTPUT_FILE_PATH);
 
         validator.validateFileExists(inputFile);
         validator.validateOutputPath(outputFile);
@@ -104,12 +106,12 @@ public class Main {
 
         System.out.printf("Найден ключ: %d (уверенность: %.2f)%n",
                 result.getKey(), result.getConfidence());
-        System.out.println("Файл успешно расшифрован.");
+        System.out.println(INFO_FROM_STATUS_DECRYPT_FILE);
     }
 
     private void statisticalAnalysis() throws Exception {
-        String inputFile = readStringInput("Введите путь к зашифрованному файлу: ");
-        String outputFile = readStringInput("Введите путь для расшифрованного файла: ");
+        String inputFile = readStringInput(BRUT_FORCE_INPUT_FILE_PATH);
+        String outputFile = readStringInput(BRUT_FORCE_OUTPUT_FILE_PATH);
 
         validator.validateFileExists(inputFile);
         validator.validateOutputPath(outputFile);
@@ -121,7 +123,7 @@ public class Main {
 
         System.out.printf("Найден ключ: %d (расстояние: %.4f)%n",
                 result.getKey(), result.getConfidence());
-        System.out.println("Файл успешно расшифрован.");
+        System.out.println(INFO_FROM_STATUS_DECRYPT_FILE);
     }
 
     private String readStringInput(String prompt) {
@@ -135,7 +137,7 @@ public class Main {
                 System.out.print(prompt);
                 return Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Пожалуйста, введите целое число.");
+                System.out.println(INFO_FROM_USER);
             }
         }
     }
